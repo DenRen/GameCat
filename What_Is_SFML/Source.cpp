@@ -32,6 +32,7 @@ float add_to_abs (float x, float delta_x) {
 	else
 		return x - delta_x;
 }
+
 struct Visobj {							// Visual object
 	sf::Vector2i coord;
 	sf::Vector2u sizeRect;
@@ -48,19 +49,19 @@ struct Visobj {							// Visual object
 	{};
 };
 
-struct ActOnKeyboard {
+struct ActKey {
 	virtual void AKeyboard (sf::Event::KeyEvent key_event, bool push) = 0;
 };
 
 #define _DIRECTION_MOVE_RIGHT 1
 #define _DIRECTION_MOVE_LEFT  -1
 
-struct key_move {
+struct ActKey__ {
 	bool move;
 	int direction;						// _DIRECTION_MOVE_RIGHT/LEFT
 	bool running;
 
-	key_move () :
+	ActKey__ () :
 		move (false), direction (0), running (false)
 	{}
 
@@ -89,17 +90,17 @@ struct unit_anim {
 };
 
 struct cat :
-	public Visobj, public ActOnKeyboard, public Physobj
+	public Visobj, public ActKey, public Physobj
 {
 	float speed;						// If velocity more zero, that a cat see on the right
-	const float walk_speed = 20 * 5;
-	const float run_speed =  60 * 5;
+	const float walk_speed = 20 * 5 * 2;
+	const float run_speed =  60 * 5 * 2;
 	
 	float accel;						// Dynamic
-	const float accel_walk = 40 * 10;
-	const float accel_run  = 80 * 10;
+	const float accel_walk = 40 * 10 * 2;
+	const float accel_run  = 80 * 10 * 2;
 
-	key_move state_control_move;
+	ActKey__ state_control_move;
 
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -223,8 +224,8 @@ void cat::draw () {
 	static int direction = 1;			// Left
 	static int dir_accel = 1;
 
-	printf ("_____: %f\n", accel);
-	printf ("ACCEL: %d\n", dir_accel);
+	//printf ("_____: %f\n", accel);
+	//printf ("ACCEL: %d\n", dir_accel);
 	int nec_cond = SITTING;				// Neccesary to sitt {if (speed == 0) SITTING}
 
 	bool need_comlete = false;
@@ -244,7 +245,7 @@ void cat::draw () {
 			nec_cond = WAKE_UP;
 		else if (abs (speed) == walk_speed)
 			nec_cond = WALKING;
-		else if (abs (speed) < run_speed)
+		else if (abs (speed) <= run_speed)
 			nec_cond = RUN_UP;
 		else // if (abs (speed) == run_speed)
 			nec_cond = RUNNING;
@@ -288,14 +289,14 @@ void cat::draw () {
 												wakeup.start.y + wakeup.direction * ((int) temp_frame) * sizeRect.y,
 												sizeRect.x, sizeRect.y));
 		}
-		printf ("WAKE_UP (%d) \tdir: %d\n\t%f\n", (int)temp_frame, direction, dir_accel);
+		printf ("WAKE_UP (%d) \tdir: %d\n\t%f\n", (int) temp_frame, direction, dir_accel);
 		
 		break; 
 
 	case WALKING:
 			walking.state = true;
 
-			if (dir_accel * direction > 0 or 1) {
+			if (dir_accel * direction > 0) {
 				frame += delta_time / walking.time_frame;
 				if (frame >= walking.size) {
 					walking.state = false;
@@ -304,23 +305,51 @@ void cat::draw () {
 				}
 
 				sprite.setTextureRect (sf::IntRect (walking.start.x,
-					walking.start.y + walking.direction * ((int)frame) * sizeRect.y,
-					sizeRect.x, sizeRect.y));
-			}
-			/*else {
+													walking.start.y + walking.direction * ((int) frame) * sizeRect.y,
+													sizeRect.x, sizeRect.y));
+			} else {
 				frame -= delta_time / walking.time_frame;
-				if (frame <= 0) {
+				if (frame <= 4 || frame >= walking.size - 4 - 1) {
 					walking.state = false;
 					frame = wakeup.size - 1;
 					break;
 				}
 				sprite.setTextureRect (sf::IntRect (walking.start.x,
-					walking.start.y + walking.direction * ((int)temp_frame) * sizeRect.y,
-					sizeRect.x, sizeRect.y));
-			}*/
-			printf ("WALKING (%d) \tdir: %d\n\t%f\n", (int)temp_frame, direction, dir_accel);
+													walking.start.y + walking.direction * ((int) temp_frame) * sizeRect.y,
+													sizeRect.x, sizeRect.y));
+			}
+			printf ("WALKING (%d) \tdir: %d\n\t%f\n", (int) temp_frame, direction, dir_accel);
+			
 			break;
 
+	case RUN_UP:
+		runup.state = true;
+
+		if (dir_accel * direction > 0) {
+			frame += delta_time / runup.time_frame;
+			if (frame >= runup.size) {
+				runup.state = false;
+				frame -= runup.size;
+				break;
+			}
+
+			sprite.setTextureRect (sf::IntRect (runup.start.x,
+				runup.start.y + runup.direction * ((int)frame) * sizeRect.y,
+				sizeRect.x, sizeRect.y));
+		}
+		else {
+			frame -= delta_time / runup.time_frame;
+			if (frame <= 4 || frame >= runup.size - 4 - 1) {
+				runup.state = false;
+				frame = wakeup.size - 1;
+				break;
+			}
+			sprite.setTextureRect (sf::IntRect (runup.start.x,
+				runup.start.y + runup.direction * ((int)temp_frame) * sizeRect.y,
+				sizeRect.x, sizeRect.y));
+		}
+		printf ("RUN_UP (%d) \tdir: %d\n\t%f\n", (int)temp_frame, direction, dir_accel);
+		break;
 	default:
 		printf ("Other\n");
 		frame = wakeup.size - 1;
@@ -329,7 +358,7 @@ void cat::draw () {
 	//printf ("%f\t%d\n", frame, wakeup.start.y + wakeup.direction * (wakeup.size - 1) * sizeRect.y);
 
 	//printf ("Direction: %d\n", direction); 
-	if (direction < 0)		sprite.setScale (1, 1);
+	if		(direction < 0)	sprite.setScale (+1, 1);
 	else if (direction > 0)	sprite.setScale (-1, 1);
 	sprite.setPosition (coord.x, coord.y);
 	
@@ -360,9 +389,9 @@ void cat::AKeyboard (sf::Event::KeyEvent key_event, bool push) {
 
 void cat::set_physic () {
 #define _STATE state_control_move
-#define _ACCEL_SLID_FICT 80
+#define _ACCEL_SLID_FICT 80 * (walk_speed - abs (speed))
 	accel = 0;
-
+	
 	if (_STATE.move)
 		accel = (accel_walk + accel_run * _STATE.running) * _STATE.direction;
 	
@@ -385,14 +414,15 @@ void cat::set_physic () {
 	fcoord.x += speed * delta_time;
 	coord.x = fcoord.x;
 
-	//printf ("\nm, d, r: %d %2d %d\n\n", _STATE.move, _STATE.direction, _STATE.running);
-	//printf ("accel: %3.2f, speed: %3.2f, location: %3.2f, dtime: %1.3f\n\n", accel, speed, fcoord.x, delta_time);
+	printf ("\nm, d, r: %d %2d %d\n\n", _STATE.move, _STATE.direction, _STATE.running);
+	printf ("accel: %3.2f, speed: %3.2f, location: %3.2f, dtime: %1.3f\n\n", accel, speed, fcoord.x, delta_time);
 
 #undef _ACCEL_SLID_FICT
 #undef _STATE
 }
 
 int main () {
+
 	game ();
 
 	return 0;
@@ -402,7 +432,11 @@ void game () {
 	const int height = 1080 / 2, width = 1920 / 2;
 
 	window.create (sf::VideoMode (width, height), "", sf::Style::Default & ~sf::Style::Resize);	// (sf::VideoMode::getDesktopMode (), "", sf::Style::Fullscreen);
-	window.setPosition (sf::Vector2i (1 * 1920 / 2, 0));
+	window.setPosition (sf::Vector2i (width, 0));
+	
+	//window.create (sf::VideoMode (width, height), "", sf::Style::Default & ~sf::Style::Resize);	// (sf::VideoMode::getDesktopMode (), "", sf::Style::Fullscreen);
+	//window.create (sf::VideoMode::getDesktopMode (), "", sf::Style::Fullscreen);
+	
 	window.setVerticalSyncEnabled (true);						// window.setFramerateLimit (25);
 	window.setKeyRepeatEnabled (false);
 
