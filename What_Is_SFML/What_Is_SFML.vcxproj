@@ -42,7 +42,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -146,10 +146,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClassCat.cpp" />
+    <ClCompile Include="ControllerEngine.cpp" />
+    <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SourceOld.cpp" />
+    <ClCompile Include="VisualEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ClassCat.hpp" />
+    <ClInclude Include="ControllerEngine.hpp" />
+    <ClInclude Include="Engines.hpp" />
+    <ClInclude Include="PhysicEngine.hpp" />
+    <ClInclude Include="VisualEngine.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
