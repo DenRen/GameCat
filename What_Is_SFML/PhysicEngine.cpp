@@ -129,7 +129,19 @@ namespace pe {
 
 		for (int i = 0; i < sizeOn; i++)
 			buf[i]->ActCtrl ();
+	}
 
+	void PhysicEngine::SetInteractionOutside () {
+		Physobj *obj = nullptr;
+		for (int i = 0; i < sizeOn; i++) {
+
+			obj = buf[i];
+			for (int j = 0; j < i; j++)
+				obj->ActInterOutside (*buf[j]);
+
+			for (int j = i + 1; j < sizeOn; j++)
+				obj->ActInterOutside (*buf[j]);
+		}
 	}
 
 	void PhysicEngine::DUMP () {

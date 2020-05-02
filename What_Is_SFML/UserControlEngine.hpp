@@ -2,24 +2,25 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace ce {
-	struct Ctrlobj {
+namespace ue {
+	struct UserCtrlobj {
 		int BufNum = -1;			// -1 if it does not lie in any buffer
 		virtual void AKey (sf::Event event) = 0;	// Action on key user pressed
 	};
 
-	struct ControllerEngine {
-		Ctrlobj **buf;
+	struct UserControlEngine {
+		UserCtrlobj **buf;
+		//UserCtrlobj **buf_imm;		// For immadiatly reaction
 		int size;
 
 		int sizeOn;
 		int posOff;
 
-		ControllerEngine ();
-		ControllerEngine (int size);
+		UserControlEngine ();
+		UserControlEngine (int size);
 
 		void init (int size);
-		void add (Ctrlobj *ctrlobj);
+		void add (UserCtrlobj *ctrlobj);
 		void del (int number);
 
 		void ControllOn (int number);		// visualOn (),  visible (),   visibleOn (), activ ()

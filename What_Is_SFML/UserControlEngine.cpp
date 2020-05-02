@@ -1,4 +1,4 @@
-﻿#include "ControllerEngine.hpp"
+﻿#include "UserControlEngine.hpp"
 
 #include "VisualEngine.hpp"
 #include <windows.h>
@@ -6,22 +6,22 @@
 
 extern sf::RenderWindow window;
 
-namespace ce {
-	ControllerEngine::ControllerEngine () :
+namespace ue {
+	UserControlEngine::UserControlEngine () :
 		size (0),
 		buf (nullptr)
 	{}
 
-	ControllerEngine::ControllerEngine (int size) {
+	UserControlEngine::UserControlEngine (int size) {
 		init (size);
 	}
 
-	void ControllerEngine::init (int size) {
+	void UserControlEngine::init (int size) {
 		this->size = size;
 		sizeOn = 0;
 		posOff = size - 1;
-		buf = (Ctrlobj **) calloc (size, sizeof (Ctrlobj *));
-
+		buf		= (UserCtrlobj **) calloc (size, sizeof (UserCtrlobj *));
+		
 		if (size == 0 || buf == nullptr)
 			throw "Failed to create VisualEngine";
 	}
@@ -35,7 +35,7 @@ namespace ce {
 	//!
 	//--------------------------------------
 
-	void ControllerEngine::add (Ctrlobj *ctrlobj) {
+	void UserControlEngine::add (UserCtrlobj *ctrlobj) {
 		assert (verifier ());
 
 		//if ((buf[sizeOn] = (Visobj *) calloc (1, sizeof (Visobj))) == nullptr)
@@ -51,7 +51,7 @@ namespace ce {
 	assert (num < sizeOn || num >= posOff);
 
 	// This function not call free or delete
-	void ControllerEngine::del (int number) {
+	void UserControlEngine::del (int number) {
 		VERI_NUM (number);
 
 		//free (buf[number]);
@@ -62,7 +62,7 @@ namespace ce {
 			_swap (number, posOff++);
 	}
 
-	void ControllerEngine::_swap (int first, int second) {
+	void UserControlEngine::_swap (int first, int second) {
 		VERI_NUM (first);
 		VERI_NUM (second);
 
@@ -71,7 +71,7 @@ namespace ce {
 	}
 
 	// Without realloc!
-	bool ControllerEngine::verifier () {
+	bool UserControlEngine::verifier () {
 		assert (size > 0);
 		assert (sizeOn >= 0);
 		assert (posOff >= 0);
@@ -81,7 +81,7 @@ namespace ce {
 		return sizeOn < posOff;		// So far without realloc
 	}
 
-	void ControllerEngine::ControllOn (int number) {
+	void UserControlEngine::ControllOn (int number) {
 		VERI_NUM (number);
 
 		if (number < sizeOn)
@@ -104,7 +104,7 @@ namespace ce {
 		}
 	}
 
-	void ControllerEngine::ControllOff (int number) {
+	void UserControlEngine::ControllOff (int number) {
 		VERI_NUM (number);
 
 		if (number >= posOff)
@@ -128,7 +128,7 @@ namespace ce {
 		}
 	}
 
-	void ControllerEngine::getCommandUsers () {
+	void UserControlEngine::getCommandUsers () {
 
 		sf::Event event;
 		while (window.pollEvent (event)) {
@@ -141,7 +141,7 @@ namespace ce {
 		}
 	}
 
-	void ControllerEngine::DUMP () {
+	void UserControlEngine::DUMP () {
 
 		/*printf ("╔════════════════════════════════════════════════════════╗\n"
 				"║size:\t%2d\t|\tsizeOn:\t%2d\t|\tposOff:\t%2d║\n"

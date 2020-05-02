@@ -4,49 +4,57 @@
 #include <SFML/Window.hpp>
 #include "Engines.hpp"
 #include "ClassCat.hpp"
-#include <locale.h>
 
 struct ActKey {
 
 };
 
-unsigned int width = 640;
-unsigned int height = 640 * 9 / 16;
+unsigned int width = 1920 / 2;
+unsigned int height = width * 9 / 16;
 
 sf::RenderWindow window;
 ve::VisualEngine VE;
 pe::PhysicEngine PE;
-ce::ControllerEngine CE;
+ue::UserControlEngine UE;
+float delta_time;
 
 int main () {
 #define TEXTURE_FILE_CAT "sprites/cat.png"
 
-	window.create (sf::VideoMode (width, height, 8 * 8), "TestActKey", sf::Style::Default &
-																	  ~sf::Style::Resize); //sf::Style::Titlebar & sf::Style::Close);
+	window.create (sf::VideoMode (width, height, 8 * 8), "", sf::Style::Default &
+															 ~sf::Style::Resize); //sf::Style::Titlebar & sf::Style::Close);
 	window.setPosition (sf::Vector2i (1920 / 2 + width / 2, 0));
 	window.setVerticalSyncEnabled (true);
 	window.setKeyRepeatEnabled (false);
 
 	VE.init (20);
-	CE.init (3);
+	UE.init (3);
 	PE.init (20);
 
 	sf::Texture texture_cat;
 	if (!texture_cat.loadFromFile (TEXTURE_FILE_CAT))
 		printf ("Failed to load texture");
 
-	hero::cat cat ({ 150, 400 }, &texture_cat);
+	hero::cat cat ({ 150, 400 }, &texture_cat, pe::objtype::USER);
 
 	VE.add ((ve::Visobj  *) &(cat.View));
-	CE.add ((ce::Ctrlobj *) &(cat.Control));
+	UE.add ((ue::UserCtrlobj *) &(cat.Control));
 	PE.add ((pe::Physobj *) &(cat.Model));
 
-	bool state = true;
+	sf::Clock clock;
+	__int64 __time_old = clock.getElapsedTime ().asMicroseconds () - 1000000;
+	__int64 __curr_time = __time_old;
 
 	while (window.isOpen ()) {
+		// | Get delta_time | -------------------------------------
+		__curr_time = clock.getElapsedTime ().asMicroseconds ();
+		delta_time = (float) (__curr_time - __time_old) / 1000000;		// In seconds
+		__time_old = __curr_time;
+		//---------------------------------------------------------
 
-		CE.getCommandUsers ();
+		UE.getCommandUsers ();
 		PE.SetLocaleChanges ();
+		PE.SetInteractionOutside ();
 		VE.draw ();
 
 	}

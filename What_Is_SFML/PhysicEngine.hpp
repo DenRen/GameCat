@@ -11,9 +11,21 @@ namespace pe {
 		MOTIONLESS
 	};
 
+	enum objtype {
+		USER,
+		NPC,
+		BUTTON,
+		BECON,
+		WALL,
+		COUNTER
+	};
+
 	struct Physobj {
 		int BufNum = -1;	// -1 if it does not lie in any buffer
+		int type;
 		virtual void ActCtrl () = 0;	// Action on the controller
+		virtual sf::Vector2f getLocate () = 0;
+		virtual void ActInterOutside (Physobj &physobj) = 0;
 	};
 
 	struct PhysicEngine {
@@ -34,11 +46,11 @@ namespace pe {
 		void visOff (int number);		// visualOff (), invisible (), visibleOff (), diactiv ()
 
 		void SetLocaleChanges ();		// Perform action on the controller
+		void SetInteractionOutside ();
 
 		inline void _swap (int first, int second);
 		inline bool verifier ();
 
 		void DUMP ();
 	};
-	
 }

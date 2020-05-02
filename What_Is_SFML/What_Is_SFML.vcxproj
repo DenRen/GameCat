@@ -147,7 +147,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ClassCat.cpp" />
-    <ClCompile Include="ControllerEngine.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="UserControlEngine.cpp" />
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SourceOld.cpp" />
@@ -158,7 +159,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassCat.hpp" />
-    <ClInclude Include="ControllerEngine.hpp" />
+    <ClInclude Include="Controller.hpp" />
+    <ClInclude Include="UserControlEngine.hpp" />
     <ClInclude Include="Engines.hpp" />
     <ClInclude Include="PhysicEngine.hpp" />
     <ClInclude Include="VisualEngine.hpp" />
