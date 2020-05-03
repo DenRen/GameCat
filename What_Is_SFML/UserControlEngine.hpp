@@ -5,7 +5,7 @@
 namespace ue {
 	struct UserCtrlobj {
 		int BufNum = -1;			// -1 if it does not lie in any buffer
-		virtual void AKey (sf::Event event) = 0;	// Action on key user pressed
+		virtual void AKey () = 0;	// Action on key user pressed
 	};
 
 	struct UserControlEngine {

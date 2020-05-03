@@ -148,21 +148,28 @@
   <ItemGroup>
     <ClCompile Include="ClassCat.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="PhysMove.cpp" />
+    <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="UserControlEngine.cpp" />
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SourceOld.cpp" />
+    <ClCompile Include="UserCtrlMove.cpp" />
     <ClCompile Include="VisualEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="ObjMoveTempl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassCat.hpp" />
     <ClInclude Include="Controller.hpp" />
+    <ClInclude Include="PhysMove.hpp" />
+    <ClInclude Include="SpriteAnimation.hpp" />
     <ClInclude Include="UserControlEngine.hpp" />
     <ClInclude Include="Engines.hpp" />
     <ClInclude Include="PhysicEngine.hpp" />
+    <ClInclude Include="UserCtrlMove.hpp" />
     <ClInclude Include="VisualEngine.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

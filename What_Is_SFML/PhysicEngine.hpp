@@ -22,7 +22,7 @@ namespace pe {
 
 	struct Physobj {
 		int BufNum = -1;	// -1 if it does not lie in any buffer
-		int type;
+		int type = -1;
 		virtual void ActCtrl () = 0;	// Action on the controller
 		virtual sf::Vector2f getLocate () = 0;
 		virtual void ActInterOutside (Physobj &physobj) = 0;

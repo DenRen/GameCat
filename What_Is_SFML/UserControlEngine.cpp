@@ -129,16 +129,15 @@ namespace ue {
 	}
 
 	void UserControlEngine::getCommandUsers () {
-
+		
 		sf::Event event;
-		while (window.pollEvent (event)) {
-
+		while (window.pollEvent (event))
 			if (event.type == sf::Event::Closed)
 				window.close ();
 
-			for (int i = 0; i < sizeOn; i++)
-				buf[i]->AKey (event);
-		}
+		for (int i = 0; i < sizeOn; i++)
+			buf[i]->AKey ();
+		
 	}
 
 	void UserControlEngine::DUMP () {

@@ -35,7 +35,7 @@ int main () {
 	if (!texture_cat.loadFromFile (TEXTURE_FILE_CAT))
 		printf ("Failed to load texture");
 
-	hero::cat cat ({ 150, 400 }, &texture_cat, pe::objtype::USER);
+	hero::cat cat ({ 150, 330 }, &texture_cat, pe::objtype::USER);
 
 	VE.add ((ve::Visobj  *) &(cat.View));
 	UE.add ((ue::UserCtrlobj *) &(cat.Control));
