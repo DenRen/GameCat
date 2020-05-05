@@ -1,5 +1,6 @@
 #pragma once
 #include "ObjMoveTempl.hpp"
+#include "SpriteAnimation.hpp"
 
 namespace hero {
 
@@ -8,8 +9,9 @@ namespace hero {
 
 		struct Model_2_View {	// Inteface between Model and View
 			sf::Vector2f coord;
-			int state;			// 
+			float speed;
 			int direct;			// Move direction
+			int state;			// 
 		};
 
 		struct Control_2_Model {
@@ -18,19 +20,17 @@ namespace hero {
 			__int8 action;
 		};
 
-		class Animation : public ve::Visobj
+		class Animation : 
+			public ve::Visobj, public objmove::smooth::ViewFrame
 		{
 		public:
 
 			// Interface getting Model Requests 
 			Model_2_View ViewParam;
 
-			sf::Sprite sprite;
-
-			Animation () {};
-			Animation (sf::Texture *texture_cat);
-
 			void draw ();
+
+			Animation (sf::Texture *texture_cat);
 		};
 
 		class Physic : 

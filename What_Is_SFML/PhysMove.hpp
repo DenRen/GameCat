@@ -18,6 +18,7 @@ namespace objmove {
 			D_RUN,		// Delta run
 			RUNNING
 		};
+
 		enum direct_move {
 			RIGHT = 1,
 			LEFT = -1,
@@ -30,20 +31,19 @@ namespace objmove {
 			DOWN
 		};
 
+		struct _alpha {
+			float wu;
+			float wd;
+			float ru;
+			float wrd;
+			float sd;
+		};
+		struct _speed_state_move {
+			float walking;
+			float running;
+		};
 		struct PhysSmoothMove
 		{
-			struct _alpha {
-				float wu;
-				float wd;
-				float ru;
-				float wrd;
-				float sd;
-			};
-			struct _speed_state_move {
-				float walking;
-				float running;
-			};
-
 			_alpha alpha;
 			_speed_state_move speed_state_move;
 
@@ -58,7 +58,7 @@ namespace objmove {
 			void update_speed ();
 
 			float eps_speed;
-			inline void SpeedChange (float dv, bool Accel);
+			inline void SpeedChange (float dv);
 
 			void UpdateCurrentState ();
 		};

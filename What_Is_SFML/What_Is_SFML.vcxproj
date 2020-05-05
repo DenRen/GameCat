@@ -100,6 +100,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\projects\ext_lib\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CallingConvention>FastCall</CallingConvention>
+      <Optimization>Custom</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,15 +157,16 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SourceOld.cpp" />
     <ClCompile Include="UserCtrlMove.cpp" />
+    <ClCompile Include="VisMove.cpp" />
     <ClCompile Include="VisualEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cpp.hint" />
     <None Include="ObjMoveTempl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassCat.hpp" />
     <ClInclude Include="Controller.hpp" />
+    <ClInclude Include="VisMove.hpp" />
     <ClInclude Include="PhysMove.hpp" />
     <ClInclude Include="SpriteAnimation.hpp" />
     <ClInclude Include="UserControlEngine.hpp" />
@@ -171,6 +174,11 @@
     <ClInclude Include="PhysicEngine.hpp" />
     <ClInclude Include="UserCtrlMove.hpp" />
     <ClInclude Include="VisualEngine.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="sprites\cat.png" />
+    <Image Include="sprites\cat_new.png" />
+    <Image Include="sprites\hotpng.com.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

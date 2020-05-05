@@ -4,25 +4,31 @@
 namespace spran {
 
 	enum {
-		HORIZONTAL, VERTICAL,		// Arrangement direction locate of sprites
-		UP, DOWN,					
+		HORIZONTAL, 
+		VERTICAL,		// Arrangement direction locate of sprites	
+		UP = 0,			// Right 
+		DOWN,			// Left	
 	};
 
 	struct DataAnim {
 		unsigned arrang : 1;
 		unsigned dir_spr : 1;
-		unsigned Hight;
 		unsigned Width;
+		unsigned Height;
 		unsigned size = -1;
+		float dur;				// Frane duration
 		sf::Vector2i locate;
+		bool cycle;
 	};
 
-	class SpriteAnimation
+	struct FrameAnimation
 	{
 		DataAnim *data = nullptr;
 		sf::Sprite *sprite = nullptr;
 
-		SpriteAnimation (int size, sf::Sprite *sprite);
+		FrameAnimation (int size, sf::Sprite *sprite);
+		void SetFrame (int state, int frame);
 	};
+
 
 }

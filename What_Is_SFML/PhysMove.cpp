@@ -15,16 +15,16 @@ namespace objmove {
 		// This code have elements of optimization, because maybe therefore, 
 		// it may seem that it is not structured. In fact, all is well.
 
-	#define _WU accel = alpha.wu * (speed_state_move.walking - speed)
-#define _RU accel = alpha.ru * (speed_state_move.running - speed)
+	#define _WU accel = alpha.wu * (speed_state_move.walking + speed)
+	#define _RU accel = alpha.ru * (speed_state_move.running - speed)
 
-#define _SD accel = -alpha.sd * (speed_state_move.running + speed)
-#define _WRD accel = -alpha.wrd * (speed_state_move.running + speed)
-#define _WD accel = -alpha.wd * (speed_state_move.walking + speed)
+	#define _SD accel = -alpha.sd * (speed_state_move.running + speed)
+	#define _WRD accel = -alpha.wrd * (speed_state_move.running + speed)
+	#define _WD accel = -alpha.wd * (speed_state_move.walking + speed)
 
-#define _AM manager
-#define CUR_STATE cur_state == state_move
-#define CUR_STATE_NE cur_state != state_move
+	#define _AM manager
+	#define CUR_STATE cur_state == state_move
+	#define CUR_STATE_NE cur_state != state_move
 
 			UpdateCurrentState ();
 			bool Accel = true;
@@ -74,12 +74,13 @@ namespace objmove {
 					break;
 				}
 
-			SpeedChange (accel * delta_time, Accel);
+			SpeedChange (accel * delta_time);
 
 			coord.x += direct * speed * delta_time;
 
 			_AM.Processed_PE = true;
 
+			UpdateCurrentState ();
 		#undef CUR_STATE_NE
 #undef CUR_STATE
 #undef _AM
@@ -93,7 +94,7 @@ namespace objmove {
 
 		}
 
-		inline void PhysSmoothMove::SpeedChange (float dv, bool Accel) {
+		inline void PhysSmoothMove::SpeedChange (float dv) {
 			assert (eps_speed >= 0);
 
 			speed += dv;

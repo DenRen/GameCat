@@ -319,8 +319,8 @@ void cat::draw () {
 				break;
 			}
 			sprite.setTextureRect(sf::IntRect(walking.start.x,
-				walking.start.y + walking.direction * ((int)temp_frame) * sizeRect.y,
-				sizeRect.x, sizeRect.y));
+								  walking.start.y + walking.direction * ((int)temp_frame) * sizeRect.y,
+								  sizeRect.x, sizeRect.y));
 		}
 		printf("WALKING (%d) \tdir: %d\n\t%f\n", (int)temp_frame, direction, dir_accel);
 

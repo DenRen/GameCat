@@ -23,7 +23,7 @@ int main () {
 
 	window.create (sf::VideoMode (width, height, 8 * 8), "", sf::Style::Default &
 															 ~sf::Style::Resize); //sf::Style::Titlebar & sf::Style::Close);
-	window.setPosition (sf::Vector2i (1920 / 2 + width / 2, 0));
+	window.setPosition (sf::Vector2i (1920 / 4 + width / 2, 0));
 	window.setVerticalSyncEnabled (true);
 	window.setKeyRepeatEnabled (false);
 
@@ -37,9 +37,9 @@ int main () {
 
 	hero::cat cat ({ 150, 330 }, &texture_cat, pe::objtype::USER);
 
-	VE.add ((ve::Visobj  *) &(cat.View));
+	VE.add ((ve::Visobj		 *) &(cat.View));
 	UE.add ((ue::UserCtrlobj *) &(cat.Control));
-	PE.add ((pe::Physobj *) &(cat.Model));
+	PE.add ((pe::Physobj	 *) &(cat.Model));
 
 	sf::Clock clock;
 	__int64 __time_old = clock.getElapsedTime ().asMicroseconds () - 1000000;
