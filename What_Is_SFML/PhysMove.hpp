@@ -58,7 +58,6 @@ namespace objmove {
 			void update_speed ();
 
 			float eps_speed;
-			inline void SpeedChange (float dv);
 
 			void UpdateCurrentState ();
 		};

@@ -43,10 +43,10 @@ namespace hero {
 		
 		// Base sizes
 		int sizeX = 400;
-		int sizeY = 200;
+		int sizeY = 199;
 
-		FRAMES (SITTING, VERTICAL, UP,		true,  sizeX, sizeY, 1,  sizeX * 1,	sizeY * 5 - 5);
-		FRAMES (D_WALK,  VERTICAL, UP,		false, sizeX, sizeY, 6,  sizeX * 1,	sizeY * 5 - 5);
+		FRAMES (SITTING, VERTICAL, UP,		true,  sizeX, sizeY, 1,  sizeX * 1,	sizeY * 5 + 2);
+		FRAMES (D_WALK,  VERTICAL, UP,		false, sizeX, sizeY, 6,  sizeX * 1,	sizeY * 5 + 2);
 		FRAMES (WALKING, VERTICAL, DOWN,	true,  sizeX, sizeY, 12, sizeX * 0, 0);
 		FRAMES (D_RUN,	 VERTICAL, DOWN,	false, sizeX, sizeY, 12, sizeX * 2, 0);
 		FRAMES (RUNNING, VERTICAL, DOWN,	true,  sizeX, sizeY, 13, sizeX * 3, 0);
@@ -83,14 +83,14 @@ namespace hero {
 	{
 		this->type = type;
 		
-		alpha.wu  = 1;
-		alpha.wd  = 1;
-		alpha.ru  = 1;
-		alpha.wrd = 5;
-		alpha.sd  = 5;
+		alpha.wu  = 400;
+		alpha.wd  = 500;
+		alpha.ru  = 1000;
+		alpha.wrd = 600;
+		alpha.sd  = 2300;
 
-		speed_state_move.walking = 100;
-		speed_state_move.running = 300;
+		speed_state_move.walking = 250;
+		speed_state_move.running = 700;
 
 		coord = init_pos;
 		speed = 0;
@@ -102,7 +102,7 @@ namespace hero {
 		manager.direction = objmove::smooth::direct_move::RIGHT;
 		manager.action = objmove::smooth::action_manager::NONE;
 
-		eps_speed = 0.5;
+		eps_speed = 0.01;
 	}
 
 	void cat::Physic::ActInterOutside (pe::Physobj &physobj)
