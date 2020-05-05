@@ -9,7 +9,7 @@ struct ActKey {
 
 };
 
-unsigned int width = 1920 / 5 * 3;
+unsigned int width = 1920;
 unsigned int height = width * 9 / 16;
 
 sf::RenderWindow window;

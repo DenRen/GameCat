@@ -66,11 +66,12 @@ namespace hero {
 	void cat::Animation::draw () {
 		printf ("\n");
 		SetNextFrame (ViewParam.speed, ViewParam.direct, ViewParam.state);
-		sprite.setPosition (ViewParam.coord);
 
 		printf ("direct: %d\n", ViewParam.direct);
 
 		sprite.setScale (-ViewParam.direct, 1);
+
+		sprite.setPosition (ViewParam.coord.x - ViewParam.direct * 100, ViewParam.coord.y);
 
 		window.draw (sprite);
 	}
