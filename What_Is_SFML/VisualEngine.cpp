@@ -10,18 +10,37 @@ namespace ve {
 		buf (nullptr)
 	{}
 
-	VisualEngine::VisualEngine (int size){
+	VisualEngine::VisualEngine (int size) :
+		size (size),
+		buf  (nullptr)
+	{
 		init (size);
 	}
 
-	void VisualEngine::init (int size) {
-		this->size = size;
-		sizeOn = 0;
-		posOff = size - 1;
-		buf = (Visobj **) calloc (size, sizeof (Visobj *));
+	VisualEngine::~VisualEngine () {
+		clean ();
+	}
 
-		if (size == 0 || buf == nullptr)
-			throw "Failed to create VisualEngine";
+	void VisualEngine::init (int size) {
+		if (buf != nullptr) {
+			if (this->size < size) {
+
+				buf = (Visobj **) realloc (buf, size * sizeof (Visobj *));
+				memmove (buf + size - this->size + posOff, buf + posOff + 1, this->size - posOff - 1);
+
+				posOff += size - this->size;
+				this->size = size;
+			}
+		} else {
+
+			this->size = size;
+			sizeOn = 0;
+			posOff = size - 1;
+			buf = (Visobj **) calloc (size, sizeof (Visobj *));
+
+			if (size == 0 || buf == nullptr)
+				throw "Failed to create VisualEngine";
+		}
 	}
 
 	//--------------------------------------
@@ -60,6 +79,11 @@ namespace ve {
 			_swap (number, posOff++);
 	}
 
+	void VisualEngine::clean () {
+		free (buf);
+		buf = nullptr;
+	}
+
 	void VisualEngine::_swap (int first, int second) {
 		VERI_NUM (first);
 		VERI_NUM (second);
@@ -76,7 +100,7 @@ namespace ve {
 		assert (posOff < size);
 		assert (buf != nullptr);
 
-		return sizeOn < posOff;		// So far without realloc
+		return sizeOn <= posOff;		// So far without realloc
 	}
 
 	void VisualEngine::visOn (int number) {
@@ -127,12 +151,10 @@ namespace ve {
 	}
 
 	void VisualEngine::draw () {
-		window.clear (sf::Color::White);
 
 		for (int i = 0; i < sizeOn; i++)
 			buf[i]->draw ();
 
-		window.display ();
 	}
 
 	void VisualEngine::DUMP () {

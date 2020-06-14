@@ -14,9 +14,14 @@ namespace hero {
 		printf ("%g %g\n", Model.coord.x, Model.coord.y);
 	}*/
 
+	enum size_cat {
+		length = 400,
+		height = 199
+	};
+
 	cat::cat (sf::Vector2f init_pos, sf::Texture *texture_cat, pe::objtype type) :
-		View (texture_cat),
-		Model (init_pos, type, &View.ViewParam),
+		View    (texture_cat),
+		Model   (init_pos, type, &View.ViewParam),
 		Control (&Model.manager)
 	{
 		View.walking_speed = Model.speed_state_move.walking;
@@ -42,8 +47,8 @@ namespace hero {
 		__DATA (name).dur = duration;										
 		
 		// Base sizes
-		int sizeX = 400;
-		int sizeY = 199;
+		int sizeX = size_cat::length;
+		int sizeY = size_cat::height;
 
 		FRAMES (SITTING, VERTICAL, UP,		true,  sizeX, sizeY, 1,  sizeX * 1,	sizeY * 5 + 2);
 		FRAMES (D_WALK,  VERTICAL, UP,		false, sizeX, sizeY, 6,  sizeX * 1,	sizeY * 5 + 2);
@@ -117,10 +122,16 @@ namespace hero {
 		ViewParam->state = cur_state;
 	}
 
+	void cat::Physic::SetPoligon () {
+
+		poligon.calc_poligon ({ size_cat::length, size_cat::height}, coord);
+	}
+
 	void cat::Physic::ActCtrl () {	// Action on monipulats user
 
 		update_speed ();
 		SetViewParam ();
+		SetPoligon	 ();
 
 	}
 

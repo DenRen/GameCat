@@ -4,23 +4,51 @@
 extern sf::RenderWindow window;
 
 namespace pe {
+	bool rect_t::intersect (rect_t &other) {
+		return ((other.x0 >= x0 && other.x0 <= x1) || (other.x1 >= x0 && other.x1 <= x1)) &&
+			   ((other.y0 >= y0 && other.y0 <= y1) || (other.y1 >= y0 && other.y1 <= y1));
+	}
+
+	rect_t rect_t::calc_poligon (sf::Vector2f size, sf::Vector2f coord) {
+		return rect_t (coord.x - size.x / 2, coord.y - size.y / 2, coord.x + size.x / 2, coord.y + size.y / 2);
+	}
+
 	PhysicEngine::PhysicEngine () :
 		size (0),
 		buf (nullptr)
 	{}
 
-	PhysicEngine::PhysicEngine (int size) {
+	PhysicEngine::PhysicEngine (int size) :
+		size (size),
+		buf  (nullptr)
+	{
 		init (size);
+	}
+	
+	PhysicEngine::~PhysicEngine () {
+		clean ();
 	}
 
 	void PhysicEngine::init (int size) {
-		this->size = size;
-		sizeOn = 0;
-		posOff = size - 1;
-		buf = (Physobj **) calloc (size, sizeof (Physobj *));
 
-		if (size == 0 || buf == nullptr)
-			throw "Failed to create VisualEngine";
+		if (buf != nullptr) {
+			if (this->size < size) {
+
+				buf = (Physobj **) realloc (buf, size * sizeof (Physobj *));
+				memmove (buf + size - this->size + posOff, buf + posOff + 1, this->size - posOff - 1);
+
+				posOff += size - this->size;
+				this->size = size;
+			}
+		} else {
+			this->size = size;
+			sizeOn = 0;
+			posOff = size - 1;
+			buf = (Physobj **) calloc (size, sizeof (Physobj *));
+
+			if (size == 0 || buf == nullptr)
+				throw "Failed to create VisualEngine";
+		}
 	}
 
 	//--------------------------------------
@@ -57,6 +85,11 @@ namespace pe {
 			_swap (number, --sizeOn);
 		else
 			_swap (number, posOff++);
+	}
+
+	void PhysicEngine::clean () {
+		free (buf);
+		buf = nullptr;
 	}
 
 	void PhysicEngine::_swap (int first, int second) {

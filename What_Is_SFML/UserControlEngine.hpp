@@ -18,10 +18,12 @@ namespace ue {
 
 		UserControlEngine ();
 		UserControlEngine (int size);
+		~UserControlEngine ();
 
 		void init (int size);
 		void add (UserCtrlobj *ctrlobj);
 		void del (int number);
+		void clean ();
 
 		void ControllOn (int number);		// visualOn (),  visible (),   visibleOn (), activ ()
 		void ControllOff (int number);		// visualOff (), invisible (), visibleOff (), diactiv ()

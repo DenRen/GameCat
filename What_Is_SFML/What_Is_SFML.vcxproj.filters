@@ -16,23 +16,26 @@
     <Filter Include="Файлы заголовков\Engines">
       <UniqueIdentifier>{0e42709c-8de7-4bd7-9d45-faa357c4a15c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Templ">
-      <UniqueIdentifier>{07b84c75-91e4-49a2-b2f3-7dd5b9972d90}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\Engines">
       <UniqueIdentifier>{ab9d308f-3e66-4eb8-8741-a58cbfc0622b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Исходные файлы\Templ">
-      <UniqueIdentifier>{e5f839d6-15ab-487f-a830-27da66b56b00}</UniqueIdentifier>
     </Filter>
     <Filter Include="Файлы ресурсов\sprites">
       <UniqueIdentifier>{f8d0fe8a-6e1c-4a71-9d8f-79fd2ff58b32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Levels">
+      <UniqueIdentifier>{0697804a-1802-4e96-9298-896ffe91a70b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Levels">
+      <UniqueIdentifier>{d0e3cc91-e972-4b9a-88ea-2800d8cd2042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Templ">
+      <UniqueIdentifier>{e5f839d6-15ab-487f-a830-27da66b56b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Templ">
+      <UniqueIdentifier>{07b84c75-91e4-49a2-b2f3-7dd5b9972d90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceOld.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ClassCat.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -62,6 +65,12 @@
     </ClCompile>
     <ClCompile Include="VisMove.cpp">
       <Filter>Исходные файлы\Templ</Filter>
+    </ClCompile>
+    <ClCompile Include="Levels.cpp">
+      <Filter>Исходные файлы\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_0.cpp">
+      <Filter>Исходные файлы\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +108,12 @@
     </ClInclude>
     <ClInclude Include="VisMove.hpp">
       <Filter>Файлы заголовков\Templ</Filter>
+    </ClInclude>
+    <ClInclude Include="Levels.h">
+      <Filter>Файлы заголовков\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_0.h">
+      <Filter>Файлы заголовков\Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

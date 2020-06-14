@@ -45,6 +45,7 @@ namespace hero {
 
 			void ActCtrl ();
 			void SetViewParam ();
+			void SetPoligon ();
 
 			sf::Vector2f getLocate ();
 			void ActInterOutside (pe::Physobj &physobj);

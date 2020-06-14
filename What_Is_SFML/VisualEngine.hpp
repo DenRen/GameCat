@@ -4,6 +4,16 @@
 #include <assert.h>
 
 namespace ve {
+
+	enum prt {
+		BACKGROUND,
+		HERO,
+		OBJ_STATIC,
+		OBJ_DYNAMIC,
+		
+		QUANTITY
+	};
+
 	struct Visobj {
 		int BufNum = -1;	// -1 if it does not lie in any buffer
 		virtual void draw () = 0;
@@ -18,12 +28,14 @@ namespace ve {
 
 		VisualEngine ();
 		VisualEngine (int size);
-
+		~VisualEngine ();
+		
 		void init (int size);
-		void add (Visobj *visobj);
-		void del (int number);
+		void add  (Visobj *visobj);
+		void del  (int number);
+		void clean ();					// Del all object in buff
 
-		void visOn (int number);		// visualOn (),  visible (),   visibleOn (), activ ()
+		void visOn  (int number);		// visualOn (),  visible (),   visibleOn (), activ ()
 		void visOff (int number);		// visualOff (), invisible (), visibleOff (), diactiv ()
 
 		void draw ();

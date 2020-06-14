@@ -12,18 +12,36 @@ namespace ue {
 		buf (nullptr)
 	{}
 
-	UserControlEngine::UserControlEngine (int size) {
+	UserControlEngine::UserControlEngine (int size) :
+		size (size),
+		buf  (nullptr)
+	{
 		init (size);
 	}
 
+	UserControlEngine::~UserControlEngine () {
+		clean ();
+	}
+
 	void UserControlEngine::init (int size) {
-		this->size = size;
-		sizeOn = 0;
-		posOff = size - 1;
-		buf		= (UserCtrlobj **) calloc (size, sizeof (UserCtrlobj *));
-		
-		if (size == 0 || buf == nullptr)
-			throw "Failed to create VisualEngine";
+		if (buf != nullptr) {
+			if (this->size < size) {
+
+				buf = (UserCtrlobj **) realloc (buf, size * sizeof (UserCtrlobj *));
+				memmove (buf + size - this->size + posOff, buf + posOff + 1, this->size - posOff - 1);
+
+				posOff += size - this->size;
+				this->size = size;
+			}
+		} else {
+			this->size = size;
+			sizeOn = 0;
+			posOff = size - 1;
+			buf = (UserCtrlobj **) calloc (size, sizeof (UserCtrlobj *));
+
+			if (size == 0 || buf == nullptr)
+				throw "Failed to create VisualEngine";
+		}
 	}
 
 	//--------------------------------------
@@ -60,6 +78,11 @@ namespace ue {
 			_swap (number, --sizeOn);
 		else
 			_swap (number, posOff++);
+	}
+	
+	void UserControlEngine::clean () {
+		free (buf);
+		buf = nullptr;
 	}
 
 	void UserControlEngine::_swap (int first, int second) {
@@ -134,6 +157,9 @@ namespace ue {
 		while (window.pollEvent (event))
 			if (event.type == sf::Event::Closed)
 				window.close ();
+			
+		if (sf::Keyboard::isKeyPressed (sf::Keyboard::Escape))
+			window.close ();
 
 		for (int i = 0; i < sizeOn; i++)
 			buf[i]->AKey ();
